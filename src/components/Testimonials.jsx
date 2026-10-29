@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import SectionHeading from './SectionHeading';
@@ -44,7 +44,7 @@ const testimonials = [
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
-  const timerRef = useRef(null);
+  const [paused, setPaused] = useState(false);
 
   const go = useCallback((idx) => {
     setCurrent((prev) => {
@@ -63,10 +63,13 @@ export default function Testimonials() {
     setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   }, []);
 
+  /* Auto-advance every ~6s — paused while the reader hovers or
+     holds a touch on the carousel */
   useEffect(() => {
-    timerRef.current = setInterval(next, 6000);
-    return () => clearInterval(timerRef.current);
-  }, [next, current]);
+    if (paused) return;
+    const id = setInterval(next, 6000);
+    return () => clearInterval(id);
+  }, [next, current, paused]);
 
   const t = testimonials[current];
 
@@ -79,13 +82,17 @@ export default function Testimonials() {
   return (
     <section className="bg-paper py-24 md:py-36 relative overflow-hidden">
       {/* giant decorative quote */}
-      <span
+      <motion.span
         aria-hidden
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.1, ease }}
         className="pointer-events-none select-none absolute top-6 left-1/2 -translate-x-1/2 font-serif leading-none text-sand"
         style={{ fontSize: '16rem' }}
       >
         &ldquo;
-      </span>
+      </motion.span>
 
       <Container className="relative">
         <SectionHeading
@@ -94,7 +101,17 @@ export default function Testimonials() {
           center
         />
 
-        <div className="max-w-[860px] mx-auto text-center -mt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.75, ease }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
+          className="max-w-[860px] mx-auto text-center -mt-2"
+        >
           <div className="min-h-[300px] md:min-h-[280px] flex flex-col justify-start">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.figure
@@ -140,7 +157,7 @@ export default function Testimonials() {
             <button
               onClick={prev}
               aria-label="Previous testimonial"
-              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all cursor-pointer"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all active:scale-90 cursor-pointer"
             >
               <ArrowLeft size={17} />
             </button>
@@ -157,12 +174,12 @@ export default function Testimonials() {
             <button
               onClick={next}
               aria-label="Next testimonial"
-              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all cursor-pointer"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all active:scale-90 cursor-pointer"
             >
               <ArrowRight size={17} />
             </button>
           </div>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

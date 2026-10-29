@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Phone } from 'lucide-react';
 import Container from './Container';
+import { Reveal, Stagger } from './Reveal';
+import { staggerChild, staggerChildScale } from './motion';
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -43,10 +45,10 @@ export default function Footer() {
   return (
     <footer className="footer-scope bg-espresso text-paper overflow-hidden">
       <Container>
-        {/* Top block */}
-        <div className="pt-16 md:pt-20 pb-12 grid gap-12 lg:grid-cols-12">
+        {/* Top block — columns rise in stagger */}
+        <Stagger className="pt-16 md:pt-20 pb-12 grid gap-12 lg:grid-cols-12">
           {/* Brand + newsletter */}
-          <div className="lg:col-span-5">
+          <motion.div variants={staggerChild} className="lg:col-span-5">
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
@@ -86,10 +88,10 @@ export default function Footer() {
                 </button>
               </form>
             )}
-          </div>
+          </motion.div>
 
           {/* Explore */}
-          <div className="lg:col-span-2">
+          <motion.div variants={staggerChild} className="lg:col-span-2">
             <p className="eyebrow text-paper/50 mb-6">Explore</p>
             <ul className="space-y-3.5">
               {exploreLinks.map((l) => (
@@ -97,17 +99,21 @@ export default function Footer() {
                   <a
                     href={l.href}
                     onClick={(e) => { e.preventDefault(); scrollTo(l.href); }}
-                    className="inline-block py-2 text-paper/75 hover:text-rust transition-colors text-[0.95rem]"
+                    className="group relative inline-block py-2 pl-0 text-paper/75 hover:text-rust hover:translate-x-[18px] transition-all duration-300 text-[0.95rem]"
                   >
+                    <ArrowRight
+                      size={13}
+                      className="absolute -left-[18px] top-1/2 -translate-y-1/2 -translate-x-1 text-rust opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                    />
                     {l.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Hours */}
-          <div className="lg:col-span-2">
+          <motion.div variants={staggerChild} className="lg:col-span-2">
             <p className="eyebrow text-paper/50 mb-6">Hours</p>
             <ul className="space-y-3.5 text-[0.95rem]">
               {hours.map((h) => (
@@ -117,10 +123,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div className="lg:col-span-3">
+          <motion.div variants={staggerChild} className="lg:col-span-3">
             <p className="eyebrow text-paper/50 mb-6">Find Us</p>
             <div className="flex gap-3 mb-4">
               <MapPin size={18} className="text-rust shrink-0 mt-0.5" />
@@ -143,20 +149,15 @@ export default function Footer() {
             >
               @crowcafe on Instagram
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </Stagger>
 
-        {/* Instagram strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease }}
-          className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3 pb-12"
-        >
+        {/* Instagram strip — tiles pop in with a stagger */}
+        <Stagger className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3 pb-12">
           {instagramImages.map((src, i) => (
-            <a
+            <motion.a
               key={i}
+              variants={staggerChildScale}
               href="https://instagram.com/crowcafe"
               target="_blank"
               rel="noopener noreferrer"
@@ -168,25 +169,32 @@ export default function Footer() {
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
-            </a>
+            </motion.a>
           ))}
-        </motion.div>
+        </Stagger>
 
         {/* Giant wordmark */}
-        <div aria-hidden className="select-none pointer-events-none text-center leading-none border-t border-paper/10 pt-8">
+        <motion.div
+          aria-hidden
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, ease }}
+          className="select-none pointer-events-none text-center leading-none border-t border-paper/10 pt-8"
+        >
           <span
             className="font-serif font-bold tracking-tight text-paper/10 whitespace-nowrap"
             style={{ fontSize: 'clamp(3rem, 11.5vw, 10.5rem)' }}
           >
             CROW CAFE
           </span>
-        </div>
+        </motion.div>
 
         {/* Bottom bar */}
-        <div className="border-t border-paper/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.8rem] text-paper/45">
+        <Reveal y={14} className="border-t border-paper/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.8rem] text-paper/45">
           <p>© {new Date().getFullYear()} Crow Cafe. All rights reserved.</p>
           <p className="font-serif italic text-paper/55">Crafted with care in India</p>
-        </div>
+        </Reveal>
       </Container>
     </footer>
   );

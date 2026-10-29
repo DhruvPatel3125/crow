@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import Container from './Container';
@@ -10,11 +10,15 @@ function useCountUp(target, duration = 2000, start = false) {
   const [value, setValue] = useState(0);
   useEffect(() => {
     if (!start) return;
+    /* Reduced-motion users get the final number on the first frame */
+    const dur = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 1
+      : duration;
     let startTime = null;
     let raf;
     const step = (timestamp) => {
       if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const progress = Math.min((timestamp - startTime) / dur, 1);
       const eased = 1 - Math.pow(1 - progress, 4);
       setValue(eased * target);
       if (progress < 1) raf = requestAnimationFrame(step);
@@ -61,6 +65,16 @@ function Stat({ value, suffix, label, delay, decimals = 0 }) {
 }
 
 export default function About() {
+  const photoRef = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: photoRef,
+    offset: ['start end', 'end start'],
+  });
+  /* Parallax-lite: the framed photo breathes ±14px against its
+     offset sand frame while the section crosses the viewport */
+  const photoY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-14, 14]);
+
   return (
     <section id="about" className="bg-paper py-24 md:py-36 overflow-hidden">
       <Container>
@@ -109,6 +123,7 @@ export default function About() {
 
           {/* Image — right, arched with sand offset */}
           <motion.div
+            ref={photoRef}
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -116,16 +131,18 @@ export default function About() {
             className="relative mx-auto w-full max-w-[460px]"
           >
             <div className="absolute -bottom-4 -left-4 w-full h-full rounded-t-[999px] rounded-b-[28px] bg-sand border border-espresso/5" aria-hidden />
-            <div className="img-hover relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_44px_84px_-38px_rgba(34,26,20,0.42),0_20px_38px_-22px_rgba(180,85,31,0.22)]">
-              <img
-                src="https://images.pexels.com/photos/4349762/pexels-photo-4349762.jpeg?auto=compress&cs=tinysrgb&w=900"
-                alt="Barista pouring latte art at Crow Cafe"
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-              <div aria-hidden className="warm-img-overlay" />
-              <div aria-hidden className="absolute inset-0 rounded-t-[999px] rounded-b-[28px] shadow-[inset_0_0_0_1px_rgba(34,26,20,0.10)]" />
-            </div>
+            <motion.div style={{ y: photoY }} className="relative">
+              <div className="img-hover relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_44px_84px_-38px_rgba(34,26,20,0.42),0_20px_38px_-22px_rgba(180,85,31,0.22)]">
+                <img
+                  src="https://images.pexels.com/photos/4349762/pexels-photo-4349762.jpeg?auto=compress&cs=tinysrgb&w=900"
+                  alt="Barista pouring latte art at Crow Cafe"
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+                <div aria-hidden className="warm-img-overlay" />
+                <div aria-hidden className="absolute inset-0 rounded-t-[999px] rounded-b-[28px] shadow-[inset_0_0_0_1px_rgba(34,26,20,0.10)]" />
+              </div>
+            </motion.div>
 
             {/* Rating badge */}
             <motion.div

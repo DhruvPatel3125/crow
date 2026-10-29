@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { MotionConfig } from 'framer-motion';
 import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -15,7 +16,7 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
       <div style={{
         opacity: loaded ? 1 : 0,
@@ -36,6 +37,6 @@ export default function App() {
         <Footer />
         <FloatingActions />
       </div>
-    </>
+    </MotionConfig>
   );
 }

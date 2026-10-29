@@ -94,7 +94,7 @@ export default function Navbar() {
               <a
                 href="#visit"
                 onClick={(e) => { e.preventDefault(); handleNav('#visit'); }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-espresso text-paper px-6 py-3 text-[0.75rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 hover:bg-rust"
+                className="inline-flex items-center gap-1.5 rounded-full bg-espresso text-paper px-6 py-3 text-[0.75rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:bg-rust hover:-translate-y-0.5 active:scale-[0.97]"
               >
                 Book a Table <ArrowUpRight size={14} />
               </a>

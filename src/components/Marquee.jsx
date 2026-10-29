@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Coffee } from 'lucide-react';
 
 const items = [
@@ -26,11 +27,17 @@ function Row({ ariaHidden = false }) {
 
 export default function Marquee() {
   return (
-    <div className="relative bg-rust text-paper py-4 overflow-hidden -rotate-[0.6deg] scale-[1.02] shadow-[0_18px_40px_-20px_rgba(180,85,31,0.7)]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="relative bg-rust text-paper py-4 overflow-hidden -rotate-[0.6deg] scale-[1.02] shadow-[0_18px_40px_-20px_rgba(180,85,31,0.7)]"
+    >
       <div className="marquee-track flex w-max">
         <Row />
         <Row ariaHidden />
       </div>
-    </div>
+    </motion.div>
   );
 }

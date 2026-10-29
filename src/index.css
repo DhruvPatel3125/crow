@@ -251,3 +251,13 @@ img { -webkit-user-drag: none; user-select: none; }
   50% { transform: translateY(-8px); }
 }
 .float-soft { animation: float-soft 5s ease-in-out infinite; }
+
+/* ─── Reduced motion ───────────────────────────────────────────────
+   Framer Motion animations are softened globally via MotionConfig
+   (App.jsx); this stills the CSS-driven loops it cannot reach. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track, .kenburns, .spin-slow, .float-soft, .whatsapp-fab {
+    animation: none;
+  }
+}

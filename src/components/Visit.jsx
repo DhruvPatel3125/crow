@@ -30,28 +30,47 @@ export default function Visit() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, ease }}
-          className="bg-sand rounded-[28px] overflow-hidden grid lg:grid-cols-2 border border-espresso/10 shadow-[0_44px_80px_-40px_rgba(34,26,20,0.42),0_14px_30px_-18px_rgba(180,85,31,0.18)]"
+          className="bg-sand rounded-[28px] overflow-hidden grid lg:grid-cols-2 border border-espresso/10 shadow-[0_44px_80px_-40px_rgba(34,26,20,0.42),0_14px_30px_-18px_rgba(180,85,31,0.18)] transition-shadow duration-700 hover:shadow-[0_56px_96px_-40px_rgba(34,26,20,0.5),0_20px_38px_-18px_rgba(180,85,31,0.24)]"
         >
           {/* Info side */}
           <div className="p-6 sm:p-8 md:p-12 lg:p-14">
-            <div className="flex items-center gap-3 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15, ease }}
+              className="flex items-center gap-3 mb-6"
+            >
               <span className="w-11 h-11 rounded-full bg-paper flex items-center justify-center text-rust">
                 <Clock size={19} />
               </span>
               <h3 className="font-serif text-2xl font-semibold text-espresso">Opening Hours</h3>
-            </div>
+            </motion.div>
 
             <ul>
-              {hours.map((h) => (
-                <li key={h.day} className="flex flex-col gap-0.5 py-3.5 sm:flex-row sm:items-baseline sm:gap-0">
+              {hours.map((h, i) => (
+                <motion.li
+                  key={h.day}
+                  initial={{ opacity: 0, x: -18 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, delay: 0.22 + i * 0.09, ease }}
+                  className="flex flex-col gap-0.5 py-3.5 sm:flex-row sm:items-baseline sm:gap-0"
+                >
                   <span className="font-medium text-bark">{h.day}</span>
                   <span className="dot-leader max-sm:hidden" aria-hidden />
                   <span className="font-serif font-semibold text-espresso whitespace-nowrap">{h.time}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
 
-            <div className="mt-8 pt-8 border-t border-espresso/12 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5, ease }}
+              className="mt-8 pt-8 border-t border-espresso/12 space-y-4"
+            >
               <div className="flex gap-3.5">
                 <MapPin size={19} className="text-rust shrink-0 mt-0.5" />
                 <p className="text-bark leading-relaxed text-[0.95rem]">
@@ -65,9 +84,15 @@ export default function Visit() {
                   +91 98765 43210
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="mt-9">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.62, ease }}
+              className="mt-9"
+            >
               <Button
                 variant="primary"
                 href="https://wa.me/919876543210?text=Hi+Crow+Cafe!+I'd+like+to+book+a+table."
@@ -75,11 +100,17 @@ export default function Visit() {
               >
                 Book via WhatsApp
               </Button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Map side */}
-          <div className="relative min-h-[300px] md:min-h-[380px] lg:min-h-full">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.3 }}
+            className="relative min-h-[300px] md:min-h-[380px] lg:min-h-full"
+          >
             <iframe
               title="Crow Cafe Location Map"
               src={MAP_EMBED}
@@ -96,7 +127,7 @@ export default function Visit() {
             >
               <ExternalLink size={12} /> Open in Maps
             </a>
-          </div>
+          </motion.div>
         </motion.div>
       </Container>
     </section>

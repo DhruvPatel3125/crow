@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Star, MapPin, Clock } from 'lucide-react';
 import { Button } from './Button';
 import Container from './Container';
@@ -29,21 +29,25 @@ function WordLine({ words, offset, italicFrom }) {
 
 export default function Hero() {
   const ref = useRef(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  /* Parallax layers — photo drifts down gently, the watermark drifts
+     up against it; both collapse to zero for reduced-motion users. */
+  const imgY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 42]);
+  const markY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -34]);
 
   const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <section ref={ref} className="relative overflow-hidden bg-paper pt-[76px]">
       {/* faint oversized watermark — sized & offset to stay fully inside the viewport */}
-      <span
+      <motion.span
         aria-hidden
         className="pointer-events-none select-none absolute top-2 right-5 sm:right-8 lg:right-12 font-serif italic font-bold text-sand leading-none whitespace-nowrap"
-        style={{ fontSize: 'clamp(6.5rem, 14.5vw, 13.5rem)' }}
+        style={{ fontSize: 'clamp(6.5rem, 14.5vw, 13.5rem)', y: markY }}
       >
         cafe
-      </span>
+      </motion.span>
 
       <Container className="relative">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center pt-10 md:pt-16 lg:pt-20 pb-14">
@@ -117,17 +121,22 @@ export default function Hero() {
             >
               {/* offset arch frame */}
               <div className="absolute -top-4 -right-4 w-full h-full rounded-t-[999px] rounded-b-[28px] border border-rust/40" aria-hidden />
-              <div className="relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_50px_100px_-40px_rgba(34,26,20,0.45),0_24px_44px_-24px_rgba(180,85,31,0.28)]">
-                <motion.img
+              {/* Parallax rides on the frame — the img keeps its CSS
+                  ken-burns drift, which would override a transform set
+                  on the img itself. */}
+              <motion.div
+                style={{ y: imgY }}
+                className="relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_50px_100px_-40px_rgba(34,26,20,0.45),0_24px_44px_-24px_rgba(180,85,31,0.28)]"
+              >
+                <img
                   src="https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="Inside Crow Cafe — warm light, fresh brews"
                   className="kenburns w-full h-full object-cover"
-                  style={{ y: imgY }}
                 />
                 {/* warm treatment + inner hairline */}
                 <div aria-hidden className="warm-img-overlay" />
                 <div aria-hidden className="absolute inset-0 rounded-t-[999px] rounded-b-[28px] shadow-[inset_0_0_0_1px_rgba(34,26,20,0.10)]" />
-              </div>
+              </motion.div>
 
               {/* rotating stamp */}
               <div className="absolute -left-8 top-10 hidden sm:flex items-center justify-center w-[104px] h-[104px]">
@@ -142,10 +151,11 @@ export default function Hero() {
                 <img src="/logo-icon.png" alt="" className="w-9 h-9 object-contain" />
               </div>
 
-              {/* floating note */}
+              {/* floating note — opacity-only entrance; the idle bob
+                  is owned by the .float-soft CSS loop */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 1.35, ease }}
                 className="float-soft absolute -bottom-6 -left-2 sm:-left-10 bg-paper border border-espresso/10 shadow-[0_30px_56px_-22px_rgba(34,26,20,0.38),0_6px_18px_-8px_rgba(34,26,20,0.12)] rounded-2xl px-5 py-4 max-w-[220px] sm:max-w-[240px]"
               >

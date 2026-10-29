@@ -55,14 +55,24 @@ function GalleryItem({ img, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.7, delay: (index % 4) * 0.07, ease }}
-      className={`group relative overflow-hidden rounded-[20px] cursor-pointer min-h-[180px] shadow-[0_22px_44px_-24px_rgba(34,26,20,0.35)] ring-1 ring-espresso/10 ${img.span}`}
+      className={`group relative overflow-hidden rounded-[20px] cursor-pointer min-h-[180px] shadow-[0_22px_44px_-24px_rgba(34,26,20,0.35)] ring-1 ring-espresso/10 transition-shadow duration-500 hover:shadow-[0_34px_58px_-24px_rgba(34,26,20,0.48)] ${img.span}`}
     >
-      <img
-        src={img.src}
-        alt={img.caption}
-        loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.07]"
-      />
+      {/* Reveal layer: the photo settles from 1.15 → 1 inside the
+          clipped tile; hover zoom stays on the img itself */}
+      <motion.div
+        initial={{ scale: 1.15 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 1.1, delay: (index % 4) * 0.07, ease }}
+        className="absolute inset-0"
+      >
+        <img
+          src={img.src}
+          alt={img.caption}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.07]"
+        />
+      </motion.div>
       <div aria-hidden className="warm-img-overlay opacity-70" />
       <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl bg-paper/92 backdrop-blur-sm border border-espresso/8 shadow-[0_14px_30px_-14px_rgba(34,26,20,0.4)] px-4 py-3 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-400">
         <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] leading-snug text-espresso min-w-0">

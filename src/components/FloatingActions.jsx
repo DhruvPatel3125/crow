@@ -16,7 +16,7 @@ export default function FloatingActions() {
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Back to top"
-        className={`back-top ${showTop ? 'visible' : ''} w-12 h-12 rounded-full bg-espresso text-paper shadow-[0_16px_34px_-12px_rgba(34,26,20,0.55)] flex items-center justify-center hover:bg-rust cursor-pointer`}
+        className={`back-top ${showTop ? 'visible' : ''} w-12 h-12 rounded-full bg-espresso text-paper shadow-[0_16px_34px_-12px_rgba(34,26,20,0.55)] flex items-center justify-center hover:bg-rust active:scale-90 cursor-pointer`}
       >
         <ArrowUp size={19} />
       </button>

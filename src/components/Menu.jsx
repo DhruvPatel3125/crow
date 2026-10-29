@@ -71,7 +71,7 @@ export default function Menu() {
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
-                className={`relative whitespace-nowrap rounded-full px-4 sm:px-6 md:px-9 py-3.5 sm:py-3 text-[0.72rem] sm:text-[0.78rem] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.18em] transition-colors duration-300 cursor-pointer ${
+                className={`relative whitespace-nowrap rounded-full px-4 sm:px-6 md:px-9 py-3.5 sm:py-3 text-[0.72rem] sm:text-[0.78rem] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.18em] transition-all duration-300 active:scale-95 cursor-pointer ${
                   active === cat ? 'text-paper' : 'text-bark hover:text-rust'
                 }`}
               >
