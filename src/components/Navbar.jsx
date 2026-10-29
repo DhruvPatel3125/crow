@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const links = [
   { label: 'About', href: '#about' },
@@ -12,6 +13,21 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // The inline script in index.html already resolved the theme and set
+  // `.dark` on <html> before first paint — hydrate state from it.
+  const [theme, setTheme] = useState(
+    () => (document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+  );
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.classList.toggle('dark', next === 'dark');
+    document.documentElement.style.colorScheme = next;
+    try { localStorage.setItem('crow-theme', next); } catch { /* private mode */ }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', next === 'dark' ? '#171009' : '#FAF6EF');
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,7 +55,7 @@ export default function Navbar() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-paper/85 backdrop-blur-xl border-b border-espresso/10 shadow-[0_18px_44px_-24px_rgba(34,26,20,0.28),0_2px_10px_-4px_rgba(34,26,20,0.08)]'
+            ? 'bg-paper/85 backdrop-blur-xl border-b border-espresso/10 shadow-[0_18px_44px_-24px_rgba(34,26,20,0.28),0_2px_10px_-4px_rgba(34,26,20,0.08)] dark:shadow-[0_18px_44px_-24px_rgba(0,0,0,0.8),0_2px_10px_-4px_rgba(0,0,0,0.5)]'
             : 'bg-transparent border-b border-transparent'
         }`}
       >
@@ -51,7 +67,7 @@ export default function Navbar() {
               onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="flex items-center gap-3"
             >
-              <img src="/logo-icon.png" alt="Crow Cafe logo" className="w-10 h-10 object-contain" />
+              <img src="/logo-icon.png" alt="Crow Cafe logo" className="w-10 h-10 object-contain dark:rounded-lg" />
               <span className="leading-none">
                 <span className="block font-serif text-[1.35rem] font-bold tracking-wide text-espresso">
                   Crow <em className="italic text-rust">Cafe</em>
@@ -74,6 +90,7 @@ export default function Navbar() {
                   {l.label}
                 </a>
               ))}
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
               <a
                 href="#visit"
                 onClick={(e) => { e.preventDefault(); handleNav('#visit'); }}
@@ -83,15 +100,18 @@ export default function Navbar() {
               </a>
             </nav>
 
-            {/* Mobile toggle */}
-            <button
-              className="md:hidden text-espresso flex items-center justify-center w-11 h-11 -mr-2"
-              aria-label="Toggle menu"
-              aria-expanded={open}
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <X size={26} /> : <Menu size={26} />}
-            </button>
+            {/* Mobile controls — theme toggle + menu button */}
+            <div className="flex items-center gap-1 md:hidden">
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <button
+                className="text-espresso flex items-center justify-center w-11 h-11 -mr-2"
+                aria-label="Toggle menu"
+                aria-expanded={open}
+                onClick={() => setOpen(!open)}
+              >
+                {open ? <X size={26} /> : <Menu size={26} />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -121,11 +141,19 @@ export default function Navbar() {
                 </motion.a>
               ))}
             </nav>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45 }}
+              className="mt-12 w-[248px]"
+            >
+              <ThemeToggle labeled theme={theme} onToggle={toggleTheme} />
+            </motion.div>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="eyebrow text-cocoa mt-14"
+              transition={{ delay: 0.55 }}
+              className="eyebrow text-cocoa mt-9"
             >
               Koramangala · Bengaluru
             </motion.p>

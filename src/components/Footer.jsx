@@ -41,7 +41,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-espresso text-paper overflow-hidden">
+    <footer className="footer-scope bg-espresso text-paper overflow-hidden">
       <Container>
         {/* Top block */}
         <div className="pt-16 md:pt-20 pb-12 grid gap-12 lg:grid-cols-12">

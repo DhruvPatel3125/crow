@@ -33,7 +33,7 @@ export default function Preloader({ onComplete }) {
       <motion.img
         src="/logo-icon.png"
         alt="Crow Cafe"
-        className="w-20 h-20 md:w-24 md:h-24 object-contain"
+        className="w-20 h-20 md:w-24 md:h-24 object-contain dark:rounded-[1.25rem]"
         initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}

@@ -19,7 +19,7 @@ export default function App() {
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
       <div style={{
         opacity: loaded ? 1 : 0,
-        backgroundColor: '#FAF6EF',
+        backgroundColor: 'var(--color-paper)',
         transition: 'opacity 0.6s ease',
         pointerEvents: loaded ? 'auto' : 'none',
       }}>

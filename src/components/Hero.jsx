@@ -135,7 +135,7 @@ export default function Hero() {
                   <defs>
                     <path id="circ" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
                   </defs>
-                  <text style={{ fontSize: 9.2, letterSpacing: 2.6, fill: '#B4551F', fontWeight: 700, textTransform: 'uppercase' }}>
+                  <text className="text-rust" style={{ fontSize: 9.2, letterSpacing: 2.6, fill: 'currentColor', fontWeight: 700, textTransform: 'uppercase' }}>
                     <textPath href="#circ">Crow Cafe · Est. Bengaluru ·</textPath>
                   </text>
                 </svg>

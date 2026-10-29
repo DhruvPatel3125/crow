@@ -83,8 +83,7 @@ export default function Visit() {
             <iframe
               title="Crow Cafe Location Map"
               src={MAP_EMBED}
-              className="absolute inset-0 w-full h-full border-0"
-              style={{ filter: 'sepia(0.22) saturate(0.85)' }}
+              className="map-frame absolute inset-0 w-full h-full border-0"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
