@@ -26,7 +26,7 @@ export default function Preloader({ onComplete }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-paper"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-paper px-6"
       animate={{ opacity: fading ? 0 : 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >

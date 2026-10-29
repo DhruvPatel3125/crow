@@ -23,6 +23,8 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Belt-and-braces: no horizontal scroll from rotated/absolute décor at any width */
+  overflow-x: clip;
 }
 
 body {
@@ -52,6 +54,26 @@ h1, h2, h3, h4, h5 {
   font-weight: 600;
   letter-spacing: 0.34em;
   text-transform: uppercase;
+}
+
+/* Long eyebrows (e.g. the hero's) must fit a 360px phone without wrapping */
+@media (max-width: 480px) {
+  .eyebrow {
+    font-size: 0.64rem;
+    letter-spacing: 0.24em;
+  }
+}
+
+/* ─── Hero headline — fluid type ───────────────────────────────────
+   Phones: ~2.75rem at 360px scaling up to 3.4rem by 640px.
+   ≥640px: identical to the original desktop scale. */
+.hero-title {
+  font-size: clamp(2.75rem, 12vw, 3.4rem);
+}
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: clamp(3.4rem, 8.5vw, 7.2rem);
+  }
 }
 
 /* ─── Premium details ──────────────────────────────────────────── */
@@ -113,15 +135,25 @@ img { -webkit-user-drag: none; user-select: none; }
   margin-inline: 0.6rem;
 }
 
-/* ─── Testimonial progress lines ───────────────────────────────── */
+/* ─── Testimonial progress lines ─────────────────────────────────
+   The visible line is drawn by ::before so the button itself can
+   carry a full 44px touch target on mobile. */
 .t-line {
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0 2px;
+  cursor: pointer;
+}
+.t-line::before {
+  content: '';
   height: 2px; width: 34px;
   background: rgba(34, 26, 20, 0.15);
   transition: background 0.3s ease, width 0.3s ease;
-  cursor: pointer;
-  border: none; padding: 0;
 }
-.t-line.active { background: var(--color-rust); width: 52px; }
+.t-line.active::before { background: var(--color-rust); width: 52px; }
 
 /* ─── Back to top ──────────────────────────────────────────────── */
 .back-top {

@@ -14,7 +14,7 @@ function Row({ ariaHidden = false }) {
     <div className="flex shrink-0 items-center" aria-hidden={ariaHidden}>
       {items.map((item, i) => (
         <span key={i} className="flex items-center">
-          <span className="font-serif italic font-medium text-lg md:text-xl tracking-wide px-6 md:px-8 whitespace-nowrap">
+          <span className="font-serif italic font-medium text-base md:text-xl tracking-wide px-5 md:px-8 whitespace-nowrap">
             {item}
           </span>
           <Coffee size={16} className="text-paper/70 shrink-0" />

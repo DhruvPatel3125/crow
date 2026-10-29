@@ -33,7 +33,7 @@ export default function Visit() {
           className="bg-sand rounded-[28px] overflow-hidden grid lg:grid-cols-2 border border-espresso/10 shadow-[0_44px_80px_-40px_rgba(34,26,20,0.42),0_14px_30px_-18px_rgba(180,85,31,0.18)]"
         >
           {/* Info side */}
-          <div className="p-8 md:p-12 lg:p-14">
+          <div className="p-6 sm:p-8 md:p-12 lg:p-14">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-11 h-11 rounded-full bg-paper flex items-center justify-center text-rust">
                 <Clock size={19} />
@@ -43,9 +43,9 @@ export default function Visit() {
 
             <ul>
               {hours.map((h) => (
-                <li key={h.day} className="flex items-baseline py-3.5">
+                <li key={h.day} className="flex flex-col gap-0.5 py-3.5 sm:flex-row sm:items-baseline sm:gap-0">
                   <span className="font-medium text-bark">{h.day}</span>
-                  <span className="dot-leader" aria-hidden />
+                  <span className="dot-leader max-sm:hidden" aria-hidden />
                   <span className="font-serif font-semibold text-espresso whitespace-nowrap">{h.time}</span>
                 </li>
               ))}
@@ -79,7 +79,7 @@ export default function Visit() {
           </div>
 
           {/* Map side */}
-          <div className="relative min-h-[380px] lg:min-h-full">
+          <div className="relative min-h-[300px] md:min-h-[380px] lg:min-h-full">
             <iframe
               title="Crow Cafe Location Map"
               src={MAP_EMBED}
@@ -93,7 +93,7 @@ export default function Visit() {
               href="https://goo.gl/maps/koramangala"
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 bg-espresso text-paper px-4 py-2.5 rounded-full text-[0.68rem] font-semibold uppercase tracking-[0.16em] hover:bg-rust transition-colors"
+              className="absolute bottom-4 right-4 inline-flex items-center min-h-[44px] gap-1.5 bg-espresso text-paper px-4 py-2.5 rounded-full text-[0.68rem] font-semibold uppercase tracking-[0.16em] hover:bg-rust transition-colors"
             >
               <ExternalLink size={12} /> Open in Maps
             </a>

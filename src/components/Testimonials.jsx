@@ -136,7 +136,7 @@ export default function Testimonials() {
           </div>
 
           {/* Controls */}
-          <div className="mt-10 flex items-center justify-center gap-6">
+          <div className="mt-10 flex items-center justify-center gap-4 sm:gap-6">
             <button
               onClick={prev}
               aria-label="Previous testimonial"

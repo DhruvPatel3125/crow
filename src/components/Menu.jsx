@@ -64,14 +64,14 @@ export default function Menu() {
           center
         />
 
-        {/* Category tabs */}
-        <div className="flex justify-center mb-12 md:mb-16">
-          <div className="relative flex bg-paper border border-espresso/10 rounded-full p-1.5 shadow-[0_16px_36px_-20px_rgba(34,26,20,0.35),0_3px_10px_-4px_rgba(34,26,20,0.08)]">
+        {/* Category tabs — sized to fit 360px, scrollable as a fallback on narrower screens */}
+        <div className="flex justify-start sm:justify-center overflow-x-auto sm:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mb-12 md:mb-16">
+          <div className="relative flex shrink-0 mx-auto sm:mx-0 bg-paper border border-espresso/10 rounded-full p-1.5 shadow-[0_16px_36px_-20px_rgba(34,26,20,0.35),0_3px_10px_-4px_rgba(34,26,20,0.08)]">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
-                className={`relative rounded-full px-6 md:px-9 py-3 text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 cursor-pointer ${
+                className={`relative whitespace-nowrap rounded-full px-4 sm:px-6 md:px-9 py-3.5 sm:py-3 text-[0.72rem] sm:text-[0.78rem] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.18em] transition-colors duration-300 cursor-pointer ${
                   active === cat ? 'text-paper' : 'text-bark hover:text-rust'
                 }`}
               >

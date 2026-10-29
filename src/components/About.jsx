@@ -50,7 +50,7 @@ function Stat({ value, suffix, label, delay, decimals = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay, ease }}
-      className="py-8 md:py-10 text-center sm:text-left"
+      className="py-6 sm:py-8 md:py-10 text-center sm:text-left"
     >
       <div className="font-serif font-semibold text-espresso leading-none" style={{ fontSize: 'clamp(2.6rem, 5vw, 4.2rem)' }}>
         {display}<span className="text-rust">{suffix}</span>

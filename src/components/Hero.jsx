@@ -55,13 +55,12 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.25, ease }}
               className="flex items-center gap-3 mb-7"
             >
-              <span className="inline-block h-px w-12 bg-rust" />
+              <span className="hidden min-[420px]:inline-block h-px w-12 bg-rust shrink-0" />
               <span className="eyebrow text-rust">Artisan Coffee · Wood-Fired Kitchen</span>
             </motion.div>
 
             <h1
-              className="font-serif font-semibold text-espresso leading-[0.95] tracking-[-0.015em]"
-              style={{ fontSize: 'clamp(3.4rem, 8.5vw, 7.2rem)' }}
+              className="hero-title font-serif font-semibold text-espresso leading-[1.04] lg:leading-[0.95] tracking-[-0.015em]"
             >
               <WordLine words={line1} offset={0} italicFrom={99} />
               <WordLine words={line2} offset={3} italicFrom={2} />
@@ -96,9 +95,9 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.3 }}
-              className="mt-9 flex items-center gap-3 text-sm text-bark"
+              className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-bark"
             >
-              <span className="flex gap-0.5">
+              <span className="flex gap-0.5 shrink-0">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} size={15} className="fill-rust text-rust" />
                 ))}
@@ -148,7 +147,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.35, ease }}
-                className="float-soft absolute -bottom-6 -left-4 sm:-left-10 bg-paper border border-espresso/10 shadow-[0_30px_56px_-22px_rgba(34,26,20,0.38),0_6px_18px_-8px_rgba(34,26,20,0.12)] rounded-2xl px-5 py-4 max-w-[240px]"
+                className="float-soft absolute -bottom-6 -left-2 sm:-left-10 bg-paper border border-espresso/10 shadow-[0_30px_56px_-22px_rgba(34,26,20,0.38),0_6px_18px_-8px_rgba(34,26,20,0.12)] rounded-2xl px-5 py-4 max-w-[220px] sm:max-w-[240px]"
               >
                 <p className="eyebrow text-rust" style={{ fontSize: '0.62rem' }}>Freshly Roasted</p>
                 <p className="font-serif italic text-[1.05rem] leading-snug text-espresso mt-1.5">

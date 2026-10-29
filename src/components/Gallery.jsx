@@ -64,11 +64,11 @@ function GalleryItem({ img, index }) {
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.07]"
       />
       <div aria-hidden className="warm-img-overlay opacity-70" />
-      <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl bg-paper/92 backdrop-blur-sm border border-espresso/8 shadow-[0_14px_30px_-14px_rgba(34,26,20,0.4)] px-4 py-3 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
-        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-espresso">
+      <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl bg-paper/92 backdrop-blur-sm border border-espresso/8 shadow-[0_14px_30px_-14px_rgba(34,26,20,0.4)] px-4 py-3 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-400">
+        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] leading-snug text-espresso min-w-0">
           {img.caption}
         </span>
-        <span className="font-serif italic text-rust text-sm shrink-0">Crow Cafe</span>
+        <span className="font-serif italic text-rust text-sm shrink-0 hidden sm:inline">Crow Cafe</span>
       </figcaption>
     </motion.figure>
   );

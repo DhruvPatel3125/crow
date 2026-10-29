@@ -75,7 +75,7 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="flex-1 min-w-0 bg-paper/8 border border-paper/20 rounded-l-full px-5 py-3.5 text-sm text-paper placeholder:text-paper/35 outline-none focus:border-rust transition-colors"
+                  className="flex-1 min-w-0 bg-paper/8 border border-paper/20 rounded-l-full px-5 py-3.5 text-base text-paper placeholder:text-paper/35 outline-none focus:border-rust transition-colors"
                 />
                 <button
                   type="submit"
@@ -97,7 +97,7 @@ export default function Footer() {
                   <a
                     href={l.href}
                     onClick={(e) => { e.preventDefault(); scrollTo(l.href); }}
-                    className="text-paper/75 hover:text-rust transition-colors text-[0.95rem]"
+                    className="inline-block py-2 text-paper/75 hover:text-rust transition-colors text-[0.95rem]"
                   >
                     {l.label}
                   </a>
@@ -152,7 +152,7 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
-          className="grid grid-cols-5 gap-2 md:gap-3 pb-12"
+          className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3 pb-12"
         >
           {instagramImages.map((src, i) => (
             <a
@@ -176,7 +176,7 @@ export default function Footer() {
         <div aria-hidden className="select-none pointer-events-none text-center leading-none border-t border-paper/10 pt-8">
           <span
             className="font-serif font-bold tracking-tight text-paper/10 whitespace-nowrap"
-            style={{ fontSize: 'clamp(3.4rem, 11.5vw, 10.5rem)' }}
+            style={{ fontSize: 'clamp(3rem, 11.5vw, 10.5rem)' }}
           >
             CROW CAFE
           </span>

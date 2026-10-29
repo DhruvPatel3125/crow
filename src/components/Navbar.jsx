@@ -20,6 +20,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Lock page scroll while the mobile overlay menu is open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open ]);
+
   const handleNav = (href) => {
     setOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
@@ -79,8 +85,9 @@ export default function Navbar() {
 
             {/* Mobile toggle */}
             <button
-              className="md:hidden text-espresso p-2 -mr-2"
+              className="md:hidden text-espresso flex items-center justify-center w-11 h-11 -mr-2"
               aria-label="Toggle menu"
+              aria-expanded={open}
               onClick={() => setOpen(!open)}
             >
               {open ? <X size={26} /> : <Menu size={26} />}
@@ -108,7 +115,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * i, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   onClick={(e) => { e.preventDefault(); handleNav(l.href); }}
-                  className="font-serif text-4xl font-semibold text-espresso hover:text-rust transition-colors"
+                  className="font-serif text-4xl font-semibold text-espresso hover:text-rust transition-colors py-2"
                 >
                   {l.label}
                 </motion.a>

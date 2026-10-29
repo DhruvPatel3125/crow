@@ -12,7 +12,7 @@ export default function FloatingActions() {
   }, []);
 
   return (
-    <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+    <div className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] sm:right-5 sm:bottom-5 z-[90] flex flex-col items-end gap-3">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Back to top"
