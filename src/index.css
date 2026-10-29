@@ -48,11 +48,30 @@ h1, h2, h3, h4, h5 {
 /* ─── Editorial label ──────────────────────────────────────────── */
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
 }
+
+/* ─── Premium details ──────────────────────────────────────────── */
+/* Consistent warm treatment laid over photography */
+.warm-img-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(168deg, rgba(250, 246, 239, 0.10) 0%, rgba(180, 85, 31, 0.05) 46%, rgba(34, 26, 20, 0.14) 100%);
+}
+
+/* Refined keyboard focus, matching the brand */
+:focus-visible {
+  outline: 2px solid rgba(180, 85, 31, 0.65);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Images never drag/select — cleaner tactile feel */
+img { -webkit-user-drag: none; user-select: none; }
 
 /* ─── Marquee ──────────────────────────────────────────────────── */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }

@@ -30,7 +30,7 @@ export default function Visit() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, ease }}
-          className="bg-sand rounded-[28px] overflow-hidden grid lg:grid-cols-2 shadow-[0_36px_70px_-36px_rgba(34,26,20,0.4)]"
+          className="bg-sand rounded-[28px] overflow-hidden grid lg:grid-cols-2 border border-espresso/10 shadow-[0_44px_80px_-40px_rgba(34,26,20,0.42),0_14px_30px_-18px_rgba(180,85,31,0.18)]"
         >
           {/* Info side */}
           <div className="p-8 md:p-12 lg:p-14">

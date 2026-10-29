@@ -17,7 +17,7 @@ const galleryImages = [
     span: '',
   },
   {
-    src: 'https://images.pexels.com/photos/3907829/pexels-photo-3907829.jpeg?auto=compress&cs=tinysrgb&w=700',
+    src: 'https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg?auto=compress&cs=tinysrgb&w=700',
     caption: 'Latte Art in Progress',
     span: '',
   },
@@ -55,7 +55,7 @@ function GalleryItem({ img, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.7, delay: (index % 4) * 0.07, ease }}
-      className={`group relative overflow-hidden rounded-[20px] cursor-pointer min-h-[180px] ${img.span}`}
+      className={`group relative overflow-hidden rounded-[20px] cursor-pointer min-h-[180px] shadow-[0_22px_44px_-24px_rgba(34,26,20,0.35)] ring-1 ring-espresso/10 ${img.span}`}
     >
       <img
         src={img.src}
@@ -63,7 +63,8 @@ function GalleryItem({ img, index }) {
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.07]"
       />
-      <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl bg-paper/92 backdrop-blur-sm px-4 py-3 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
+      <div aria-hidden className="warm-img-overlay opacity-70" />
+      <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl bg-paper/92 backdrop-blur-sm border border-espresso/8 shadow-[0_14px_30px_-14px_rgba(34,26,20,0.4)] px-4 py-3 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
         <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-espresso">
           {img.caption}
         </span>

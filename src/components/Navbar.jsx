@@ -33,11 +33,11 @@ export default function Navbar() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-paper/90 backdrop-blur-md border-b border-espresso/10 shadow-[0_10px_40px_-18px_rgba(34,26,20,0.25)]'
+            ? 'bg-paper/85 backdrop-blur-xl border-b border-espresso/10 shadow-[0_18px_44px_-24px_rgba(34,26,20,0.28),0_2px_10px_-4px_rgba(34,26,20,0.08)]'
             : 'bg-transparent border-b border-transparent'
         }`}
       >
-        <div className="mx-auto w-full max-w-[1280px] px-6 md:px-10">
+        <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
           <div className="flex items-center justify-between h-[76px]">
             {/* Brand */}
             <a

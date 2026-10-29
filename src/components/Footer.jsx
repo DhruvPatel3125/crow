@@ -21,7 +21,7 @@ const hours = [
 const instagramImages = [
   'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=400',
   'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=400',
-  'https://images.pexels.com/photos/3907829/pexels-photo-3907829.jpeg?auto=compress&cs=tinysrgb&w=400',
+  'https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg?auto=compress&cs=tinysrgb&w=400',
   'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&w=400',
   'https://images.pexels.com/photos/6205791/pexels-photo-6205791.jpeg?auto=compress&cs=tinysrgb&w=400',
 ];
@@ -160,7 +160,7 @@ export default function Footer() {
               href="https://instagram.com/crowcafe"
               target="_blank"
               rel="noopener noreferrer"
-              className="img-hover block aspect-square rounded-xl overflow-hidden"
+              className="img-hover block aspect-square rounded-xl overflow-hidden ring-1 ring-paper/15 shadow-[0_14px_28px_-16px_rgba(0,0,0,0.55)]"
             >
               <img
                 src={src}

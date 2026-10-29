@@ -115,14 +115,16 @@ export default function About() {
             transition={{ duration: 0.9, ease }}
             className="relative mx-auto w-full max-w-[460px]"
           >
-            <div className="absolute -bottom-4 -left-4 w-full h-full rounded-t-[999px] rounded-b-[28px] bg-sand" aria-hidden />
-            <div className="img-hover relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5]">
+            <div className="absolute -bottom-4 -left-4 w-full h-full rounded-t-[999px] rounded-b-[28px] bg-sand border border-espresso/5" aria-hidden />
+            <div className="img-hover relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_44px_84px_-38px_rgba(34,26,20,0.42),0_20px_38px_-22px_rgba(180,85,31,0.22)]">
               <img
                 src="https://images.pexels.com/photos/4349762/pexels-photo-4349762.jpeg?auto=compress&cs=tinysrgb&w=900"
                 alt="Barista pouring latte art at Crow Cafe"
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
+              <div aria-hidden className="warm-img-overlay" />
+              <div aria-hidden className="absolute inset-0 rounded-t-[999px] rounded-b-[28px] shadow-[inset_0_0_0_1px_rgba(34,26,20,0.10)]" />
             </div>
 
             {/* Rating badge */}
@@ -131,7 +133,7 @@ export default function About() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.45, ease }}
-              className="absolute -bottom-7 right-6 md:-right-4 bg-rust text-paper rounded-2xl shadow-[0_24px_44px_-16px_rgba(180,85,31,0.65)] w-[118px] h-[118px] flex flex-col items-center justify-center gap-1"
+              className="absolute -bottom-7 right-6 md:-right-4 bg-rust text-paper rounded-2xl border border-paper/25 shadow-[0_28px_48px_-16px_rgba(180,85,31,0.6),0_8px_18px_-8px_rgba(34,26,20,0.25)] w-[118px] h-[118px] flex flex-col items-center justify-center gap-1"
             >
               <span className="font-serif font-bold text-[2rem] leading-none">4.9</span>
               <span className="flex items-center gap-1 text-[0.6rem] font-semibold uppercase tracking-[0.18em]">

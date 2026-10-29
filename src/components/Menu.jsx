@@ -27,7 +27,7 @@ function MenuItem({ item, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.06, ease }}
-      className="group py-1"
+      className="group py-1 transition-transform duration-300 hover:translate-x-1"
     >
       {item.isChefSpecial && (
         <p className="eyebrow text-rust mb-1.5" style={{ fontSize: '0.6rem' }}>
@@ -66,7 +66,7 @@ export default function Menu() {
 
         {/* Category tabs */}
         <div className="flex justify-center mb-12 md:mb-16">
-          <div className="relative flex bg-paper border border-espresso/12 rounded-full p-1.5 shadow-[0_10px_30px_-18px_rgba(34,26,20,0.3)]">
+          <div className="relative flex bg-paper border border-espresso/10 rounded-full p-1.5 shadow-[0_16px_36px_-20px_rgba(34,26,20,0.35),0_3px_10px_-4px_rgba(34,26,20,0.08)]">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -96,7 +96,7 @@ export default function Menu() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.4, ease }}
-            className="grid md:grid-cols-2 gap-x-14 lg:gap-x-20 gap-y-7 max-w-[1080px] mx-auto"
+            className="grid md:grid-cols-2 gap-x-14 lg:gap-x-24 gap-y-7 max-w-[1200px] mx-auto"
           >
             {menuData[active].map((item, i) => (
               <MenuItem key={item.id} item={item} index={i} />

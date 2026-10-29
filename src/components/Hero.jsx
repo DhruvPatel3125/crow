@@ -36,17 +36,17 @@ export default function Hero() {
 
   return (
     <section ref={ref} className="relative overflow-hidden bg-paper pt-[76px]">
-      {/* faint oversized watermark */}
+      {/* faint oversized watermark — sized & offset to stay fully inside the viewport */}
       <span
         aria-hidden
-        className="pointer-events-none select-none absolute -top-6 right-0 font-serif italic font-bold text-sand leading-none"
-        style={{ fontSize: 'clamp(10rem, 26vw, 24rem)' }}
+        className="pointer-events-none select-none absolute top-2 right-5 sm:right-8 lg:right-12 font-serif italic font-bold text-sand leading-none whitespace-nowrap"
+        style={{ fontSize: 'clamp(6.5rem, 14.5vw, 13.5rem)' }}
       >
         cafe
       </span>
 
       <Container className="relative">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center pt-10 md:pt-16 lg:pt-20 pb-14">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center pt-10 md:pt-16 lg:pt-20 pb-14">
           {/* ——— Copy ——— */}
           <div className="lg:col-span-7 relative z-10">
             <motion.div
@@ -60,8 +60,8 @@ export default function Hero() {
             </motion.div>
 
             <h1
-              className="font-serif font-semibold text-espresso leading-[0.98] tracking-[-0.01em]"
-              style={{ fontSize: 'clamp(3.4rem, 8.5vw, 6.8rem)' }}
+              className="font-serif font-semibold text-espresso leading-[0.95] tracking-[-0.015em]"
+              style={{ fontSize: 'clamp(3.4rem, 8.5vw, 7.2rem)' }}
             >
               <WordLine words={line1} offset={0} italicFrom={99} />
               <WordLine words={line2} offset={3} italicFrom={2} />
@@ -114,17 +114,20 @@ export default function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease }}
-              className="relative mx-auto max-w-[420px]"
+              className="relative mx-auto w-full max-w-[500px]"
             >
               {/* offset arch frame */}
               <div className="absolute -top-4 -right-4 w-full h-full rounded-t-[999px] rounded-b-[28px] border border-rust/40" aria-hidden />
-              <div className="relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_40px_80px_-30px_rgba(34,26,20,0.35)]">
+              <div className="relative overflow-hidden rounded-t-[999px] rounded-b-[28px] aspect-[4/5] shadow-[0_50px_100px_-40px_rgba(34,26,20,0.45),0_24px_44px_-24px_rgba(180,85,31,0.28)]">
                 <motion.img
                   src="https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="Inside Crow Cafe — warm light, fresh brews"
                   className="kenburns w-full h-full object-cover"
                   style={{ y: imgY }}
                 />
+                {/* warm treatment + inner hairline */}
+                <div aria-hidden className="warm-img-overlay" />
+                <div aria-hidden className="absolute inset-0 rounded-t-[999px] rounded-b-[28px] shadow-[inset_0_0_0_1px_rgba(34,26,20,0.10)]" />
               </div>
 
               {/* rotating stamp */}
@@ -145,7 +148,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.35, ease }}
-                className="float-soft absolute -bottom-6 -left-4 sm:-left-10 bg-paper border border-espresso/10 shadow-[0_24px_50px_-20px_rgba(34,26,20,0.35)] rounded-2xl px-5 py-4 max-w-[240px]"
+                className="float-soft absolute -bottom-6 -left-4 sm:-left-10 bg-paper border border-espresso/10 shadow-[0_30px_56px_-22px_rgba(34,26,20,0.38),0_6px_18px_-8px_rgba(34,26,20,0.12)] rounded-2xl px-5 py-4 max-w-[240px]"
               >
                 <p className="eyebrow text-rust" style={{ fontSize: '0.62rem' }}>Freshly Roasted</p>
                 <p className="font-serif italic text-[1.05rem] leading-snug text-espresso mt-1.5">

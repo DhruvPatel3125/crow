@@ -34,9 +34,9 @@ export function Button({ children, variant = 'primary', href, onClick, magnetic 
     'inline-flex items-center justify-center gap-2 rounded-full font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 cursor-pointer select-none active:scale-95';
 
   const variants = {
-    primary: 'bg-rust text-paper px-8 py-4 shadow-[0_12px_30px_-10px_rgba(180,85,31,0.55)] hover:bg-rust-dark hover:shadow-[0_16px_36px_-10px_rgba(180,85,31,0.6)]',
-    ghost: 'bg-transparent text-espresso px-8 py-4 border border-espresso/30 hover:border-rust hover:text-rust',
-    coffee: 'bg-espresso text-paper px-8 py-4 hover:bg-bark',
+    primary: 'bg-rust text-paper px-8 py-4 shadow-[0_14px_32px_-12px_rgba(180,85,31,0.55),0_3px_8px_-3px_rgba(34,26,20,0.18)] hover:bg-rust-dark hover:-translate-y-0.5 hover:shadow-[0_20px_38px_-12px_rgba(180,85,31,0.6),0_4px_10px_-4px_rgba(34,26,20,0.16)]',
+    ghost: 'bg-transparent text-espresso px-8 py-4 border border-espresso/30 hover:border-rust hover:text-rust hover:bg-rust/[0.05]',
+    coffee: 'bg-espresso text-paper px-8 py-4 shadow-[0_14px_30px_-14px_rgba(34,26,20,0.55)] hover:bg-bark hover:-translate-y-0.5',
   };
 
   const cls = `${base} ${variants[variant] ?? variants.primary} ${className}`;

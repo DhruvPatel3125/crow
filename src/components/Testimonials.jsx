@@ -124,7 +124,7 @@ export default function Testimonials() {
                     src={t.avatar}
                     alt={t.name}
                     loading="lazy"
-                    className="w-12 h-12 rounded-full object-cover border-2 border-sand"
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-sand shadow-[0_10px_22px_-10px_rgba(34,26,20,0.45)]"
                   />
                   <span className="text-left">
                     <span className="block font-serif font-semibold text-lg text-espresso leading-tight">{t.name}</span>
@@ -140,7 +140,7 @@ export default function Testimonials() {
             <button
               onClick={prev}
               aria-label="Previous testimonial"
-              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust transition-colors cursor-pointer"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all cursor-pointer"
             >
               <ArrowLeft size={17} />
             </button>
@@ -157,7 +157,7 @@ export default function Testimonials() {
             <button
               onClick={next}
               aria-label="Next testimonial"
-              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust transition-colors cursor-pointer"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust hover:bg-sand/50 hover:shadow-[0_12px_24px_-12px_rgba(34,26,20,0.35)] transition-all cursor-pointer"
             >
               <ArrowRight size={17} />
             </button>
