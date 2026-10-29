@@ -1,189 +1,119 @@
 import { useState } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-// lucide-react icons not needed in this component
+import { motion, AnimatePresence } from 'framer-motion';
 import SectionHeading from './SectionHeading';
 import Container from './Container';
 import { menuData } from '../data/menu';
 
-const tabs = Object.keys(menuData);
+const categories = Object.keys(menuData);
+const ease = [0.22, 1, 0.36, 1];
 
-function MenuCard({ item, index }) {
+function VegMark({ isVeg }) {
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="card-glow"
-      style={{
-        background: item.isChefSpecial
-          ? 'linear-gradient(135deg, rgba(217,164,65,0.12) 0%, rgba(30,24,18,0.8) 100%)'
-          : 'rgba(30,24,18,0.8)',
-        border: item.isChefSpecial
-          ? '1px solid rgba(217,164,65,0.35)'
-          : '1px solid rgba(111,78,55,0.2)',
-        padding: '1.5rem',
-        position: 'relative',
-        cursor: 'default',
-      }}
+    <span
+      title={isVeg ? 'Vegetarian' : 'Non-vegetarian'}
+      className={`inline-flex items-center justify-center w-[15px] h-[15px] border-[1.5px] rounded-[3px] shrink-0 ${
+        isVeg ? 'border-olive' : 'border-rust'
+      }`}
     >
-      {/* Chef Special Badge */}
-      {item.isChefSpecial && (
-        <div style={{
-          position: 'absolute', top: '1rem', right: '1rem',
-          background: '#D9A441',
-          color: '#14100C',
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: '0.6rem',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          fontWeight: 600,
-          padding: '0.3rem 0.7rem',
-        }}>
-          Chef's Special
-        </div>
-      )}
+      <span className={`w-[7px] h-[7px] rounded-full ${isVeg ? 'bg-olive' : 'bg-rust'}`} />
+    </span>
+  );
+}
 
-      {/* Top row */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.75rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {/* Veg / Non-veg indicator */}
-          <div style={{
-            width: 14, height: 14, minWidth: 14,
-            border: `1.5px solid ${item.isVeg ? '#22c55e' : '#ef4444'}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <div style={{
-              width: 7, height: 7, borderRadius: '50%',
-              background: item.isVeg ? '#22c55e' : '#ef4444',
-            }} />
-          </div>
-          <h3 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: '1.1rem',
-            fontWeight: 600,
-            color: '#F5EFE6',
-            lineHeight: 1.3,
-          }}>
-            {item.name}
-          </h3>
-        </div>
-        <span style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '1.15rem',
-          color: '#D9A441',
-          fontWeight: 600,
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-        }}>
+function MenuItem({ item, index }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay: (index % 6) * 0.06, ease }}
+      className="group py-1"
+    >
+      {item.isChefSpecial && (
+        <p className="eyebrow text-rust mb-1.5" style={{ fontSize: '0.6rem' }}>
+          Chef&apos;s Special
+        </p>
+      )}
+      <div className="flex items-baseline">
+        <h3 className="font-serif text-[1.35rem] md:text-[1.5rem] font-semibold text-espresso leading-tight flex items-center gap-2.5 group-hover:text-rust transition-colors duration-300">
+          {item.name}
+          <VegMark isVeg={item.isVeg} />
+        </h3>
+        <span className="dot-leader" aria-hidden />
+        <span className="font-serif text-[1.3rem] md:text-[1.45rem] font-semibold text-rust whitespace-nowrap">
           ₹{item.price}
         </span>
       </div>
-
-      <p style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: '0.88rem',
-        color: 'rgba(245,239,230,0.55)',
-        lineHeight: 1.7,
-      }}>
+      <p className="mt-1.5 text-[0.92rem] leading-relaxed text-cocoa max-w-[92%]">
         {item.description}
       </p>
-
-      {/* Bottom accent line on hover */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0,
-        height: 2, width: '0%',
-        background: '#D9A441',
-        transition: 'width 0.4s ease',
-      }}
-        onMouseEnter={(e) => { e.currentTarget.style.width = '100%'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.width = '0%'; }}
-      />
-    </motion.div>
+    </motion.article>
   );
 }
 
 export default function Menu() {
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [active, setActive] = useState(categories[0]);
 
   return (
-    <section id="menu" className="section-padding" style={{ background: '#14100C' }}>
+    <section id="menu" className="bg-parchment py-24 md:py-36 relative overflow-hidden">
       <Container>
         <SectionHeading
-          eyebrow="What We Serve"
-          title={<>Our <em style={{ color: '#D9A441', fontStyle: 'italic' }}>Menu</em></>}
-          subtitle="Every item is crafted with intent. Sourced locally, prepared with care, served with love."
+          eyebrow="Taste the Craft"
+          title={<>Our <em className="italic text-rust">Menu</em></>}
+          subtitle="Poured, plated and baked fresh through the day. Prices include all taxes — the story is on us."
           center
         />
 
-        {/* Tabs */}
-        <LayoutGroup>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '0.25rem',
-            marginBottom: '3.5rem',
-            background: 'rgba(30,24,18,0.6)',
-            padding: '0.4rem',
-            width: 'fit-content',
-            marginInline: 'auto',
-          }}>
-            {tabs.map((tab) => (
+        {/* Category tabs */}
+        <div className="flex justify-center mb-12 md:mb-16">
+          <div className="relative flex bg-paper border border-espresso/12 rounded-full p-1.5 shadow-[0_10px_30px_-18px_rgba(34,26,20,0.3)]">
+            {categories.map((cat) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                style={{
-                  position: 'relative',
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  padding: '0.75rem 2rem',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: activeTab === tab ? '#14100C' : 'rgba(245,239,230,0.55)',
-                  transition: 'color 0.3s ease',
-                  zIndex: 1,
-                }}
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`relative rounded-full px-6 md:px-9 py-3 text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 cursor-pointer ${
+                  active === cat ? 'text-paper' : 'text-bark hover:text-rust'
+                }`}
               >
-                {activeTab === tab && (
-                  <motion.div
-                    layoutId="tab-bg"
-                    style={{
-                      position: 'absolute', inset: 0,
-                      background: '#D9A441',
-                      zIndex: -1,
-                    }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                {active === cat && (
+                  <motion.span
+                    layoutId="menu-tab-pill"
+                    className="absolute inset-0 bg-rust rounded-full"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                   />
                 )}
-                {tab}
+                <span className="relative z-10">{cat}</span>
               </button>
             ))}
           </div>
-        </LayoutGroup>
+        </div>
 
-        {/* Cards Grid */}
+        {/* Editorial two-column list */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 360px), 1fr))',
-              gap: '1.25rem',
-            }}
+            key={active}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.4, ease }}
+            className="grid md:grid-cols-2 gap-x-14 lg:gap-x-20 gap-y-7 max-w-[1080px] mx-auto"
           >
-            {menuData[activeTab].map((item, i) => (
-              <MenuCard key={item.id} item={item} index={i} />
+            {menuData[active].map((item, i) => (
+              <MenuItem key={item.id} item={item} index={i} />
             ))}
           </motion.div>
         </AnimatePresence>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-center mt-14 font-serif italic text-lg text-bark"
+        >
+          Ask our barista about today&apos;s off-menu pour —{' '}
+          <span className="text-rust">there is always one.</span>
+        </motion.p>
       </Container>
     </section>
   );

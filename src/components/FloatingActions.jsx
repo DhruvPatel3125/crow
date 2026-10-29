@@ -1,81 +1,35 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronUp, MessageCircle } from 'lucide-react';
+import { ArrowUp, MessageCircle } from 'lucide-react';
 
 export default function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 400);
+    const onScroll = () => setShowTop(window.scrollY > 600);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
   return (
-    <>
-      {/* WhatsApp FAB (fixed bottom-right on mobile) */}
-      <motion.a
-        href="https://wa.me/919876543210?text=Hi+Crow+Cafe!+I'd+like+to+place+an+order."
+    <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+        className={`back-top ${showTop ? 'visible' : ''} w-12 h-12 rounded-full bg-espresso text-paper shadow-[0_16px_34px_-12px_rgba(34,26,20,0.55)] flex items-center justify-center hover:bg-rust cursor-pointer`}
+      >
+        <ArrowUp size={19} />
+      </button>
+
+      <a
+        href="https://wa.me/919876543210?text=Hi+Crow+Cafe!+I'd+like+to+book+a+table."
         target="_blank"
         rel="noopener noreferrer"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
-        className="whatsapp-fab"
-        style={{
-          position: 'fixed',
-          bottom: '1.75rem',
-          right: '1.75rem',
-          width: 54, height: 54,
-          borderRadius: '50%',
-          background: '#25D366',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 500,
-          textDecoration: 'none',
-          boxShadow: '0 4px 20px rgba(37,211,102,0.3)',
-        }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label="WhatsApp Order"
+        aria-label="Chat on WhatsApp"
+        className="whatsapp-fab w-[54px] h-[54px] rounded-full bg-[#25D366] text-white shadow-[0_16px_34px_-10px_rgba(37,211,102,0.6)] flex items-center justify-center hover:scale-105 transition-transform"
       >
-        <MessageCircle size={26} color="white" fill="white" />
-      </motion.a>
-
-      {/* Back to Top */}
-      <AnimatePresence>
-        {showTop && (
-          <motion.button
-            key="back-top"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-            onClick={scrollTop}
-            style={{
-              position: 'fixed',
-              bottom: '5.5rem',
-              right: '1.75rem',
-              width: 44, height: 44,
-              background: 'rgba(217,164,65,0.15)',
-              border: '1px solid rgba(217,164,65,0.35)',
-              backdropFilter: 'blur(10px)',
-              color: '#D9A441',
-              borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer',
-              zIndex: 499,
-              transition: 'background 0.3s',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(217,164,65,0.25)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(217,164,65,0.15)'; }}
-            aria-label="Back to top"
-          >
-            <ChevronUp size={20} />
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </>
+        <MessageCircle size={25} />
+      </a>
+    </div>
   );
 }

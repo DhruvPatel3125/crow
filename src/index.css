@@ -1,23 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
-/* ─── Brand Tokens ─────────────────────────────────────────────── */
+/* ─── Brand Tokens — Light Warm Editorial ──────────────────────── */
 @theme {
-  --color-charcoal: #14100C;
-  --color-coffee: #6F4E37;
-  --color-cream: #F5EFE6;
-  --color-amber: #D9A441;
-  --color-amber-dark: #B8882E;
-  --color-amber-light: #F0C060;
-  --color-cream-dark: #E8DDD0;
-  --color-surface: #1E1812;
+  --color-paper: #FAF6EF;
+  --color-parchment: #F4EDDE;
+  --color-sand: #EDE4D3;
+  --color-linen: #DFD2B8;
+  --color-espresso: #221A14;
+  --color-bark: #4A3A2C;
+  --color-cocoa: #7C6A58;
+  --color-rust: #B4551F;
+  --color-rust-dark: #96450F;
+  --color-olive: #6F7355;
+
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
 }
 
-/* ─── Reset & Base ─────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+/* ─── Base ─────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -25,152 +26,107 @@ html {
 }
 
 body {
-  background-color: #14100C;
-  color: #F5EFE6;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
   overflow-x: hidden;
-  cursor: default;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-serif);
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #14100C; }
-::-webkit-scrollbar-thumb { background: #6F4E37; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #D9A441; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-parchment); }
+::-webkit-scrollbar-thumb { background: var(--color-linen); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-rust); }
 
 /* Custom selection */
-::selection { background: rgba(217,164,65,.35); color: #F5EFE6; }
+::selection { background: var(--color-rust); color: var(--color-paper); }
 
-/* ─── Grain Texture Overlay ────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 9999;
+/* ─── Editorial label ──────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }
-
-/* ─── Typography ───────────────────────────────────────────────── */
-h1, h2, h3, h4, h5 { font-family: 'Playfair Display', Georgia, serif; }
-
-/* ─── Utilities ────────────────────────────────────────────────── */
-.section-padding { padding: 6rem 1.5rem; }
-@media (min-width: 768px) { .section-padding { padding: 8rem 2rem; } }
-@media (min-width: 1280px) { .section-padding { padding: 10rem 3rem; } }
-
-.container-xl {
-  max-width: 1280px;
-  margin-inline: auto;
-  width: 100%;
-  padding-inline: 1.5rem;
-}
-
-/* ─── Magnetic Button ──────────────────────────────────────────── */
-.btn-magnetic { transition: transform 0.2s cubic-bezier(.23,1,.32,1); }
-
-/* ─── Ken Burns ────────────────────────────────────────────────── */
-@keyframes kenburns {
-  0%   { transform: scale(1)     translateX(0)   translateY(0); }
-  50%  { transform: scale(1.08)  translateX(-1%) translateY(-0.5%); }
-  100% { transform: scale(1.04)  translateX(0.5%) translateY(0.5%); }
-}
-.kenburns { animation: kenburns 20s ease-in-out infinite alternate; }
 
 /* ─── Marquee ──────────────────────────────────────────────────── */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.marquee-track { animation: marquee 28s linear infinite; }
+.marquee-track { animation: marquee 30s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
 
-/* ─── Preloader ────────────────────────────────────────────────── */
-@keyframes preloader-spin {
-  0%   { transform: rotate(0deg) scale(1); opacity: 1; }
-  50%  { transform: rotate(180deg) scale(1.1); opacity: .7; }
-  100% { transform: rotate(360deg) scale(1); opacity: 1; }
+/* ─── Ken Burns (subtle, for hero / about imagery) ─────────────── */
+@keyframes kenburns {
+  0%   { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.07) translateY(-1%); }
 }
-.preloader-icon { animation: preloader-spin 2s ease-in-out infinite; }
+.kenburns { animation: kenburns 18s ease-in-out infinite alternate; }
 
-@keyframes progress-fill {
-  from { width: 0%; }
-  to   { width: 100%; }
-}
-.progress-fill { animation: progress-fill 2.5s ease-out forwards; }
-
-/* ─── Scroll indicator ─────────────────────────────────────────── */
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50%       { transform: translateY(8px); opacity: .4; }
-}
-.scroll-bounce { animation: scroll-bounce 1.8s ease-in-out infinite; }
-
-/* ─── Card hover glow ──────────────────────────────────────────── */
-.card-glow { transition: box-shadow 0.4s ease, transform 0.4s ease; }
-.card-glow:hover {
-  box-shadow: 0 20px 60px rgba(217,164,65,.15), 0 0 0 1px rgba(217,164,65,.2);
-  transform: translateY(-6px);
-}
-
-/* ─── Image hover ──────────────────────────────────────────────── */
+/* ─── Image hover zoom ─────────────────────────────────────────── */
 .img-hover { overflow: hidden; }
-.img-hover img { transition: transform 0.7s cubic-bezier(.23,1,.32,1); }
-.img-hover:hover img { transform: scale(1.07); }
+.img-hover img { transition: transform 0.8s cubic-bezier(.22,1,.36,1); }
+.img-hover:hover img { transform: scale(1.06); }
 
-/* ─── Amber underline ──────────────────────────────────────────── */
-.amber-underline {
-  position: relative;
-  display: inline-block;
-}
-.amber-underline::after {
+/* ─── Nav link underline ───────────────────────────────────────── */
+.link-underline { position: relative; }
+.link-underline::after {
   content: '';
   position: absolute;
-  bottom: -4px; left: 0;
-  height: 2px; width: 0;
-  background: #D9A441;
-  transition: width 0.4s ease;
+  left: 0; bottom: -5px;
+  height: 1.5px; width: 100%;
+  background: var(--color-rust);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(.22,1,.36,1);
 }
-.amber-underline:hover::after { width: 100%; }
+.link-underline:hover::after { transform: scaleX(1); transform-origin: left; }
 
-/* ─── Testimonial dots ─────────────────────────────────────────── */
-.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(245,239,230,.3); transition: all .3s ease; }
-.dot.active { background: #D9A441; width: 24px; border-radius: 4px; }
+/* ─── Dotted leader (editorial menu rows) ──────────────────────── */
+.dot-leader {
+  flex: 1 1 auto;
+  min-width: 1.75rem;
+  border-bottom: 2px dotted rgba(34, 26, 20, 0.28);
+  transform: translateY(-0.32em);
+  margin-inline: 0.6rem;
+}
 
-/* ─── Counter number ───────────────────────────────────────────── */
-@keyframes count-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.count-reveal { animation: count-up 0.6s ease forwards; }
+/* ─── Testimonial progress lines ───────────────────────────────── */
+.t-line {
+  height: 2px; width: 34px;
+  background: rgba(34, 26, 20, 0.15);
+  transition: background 0.3s ease, width 0.3s ease;
+  cursor: pointer;
+  border: none; padding: 0;
+}
+.t-line.active { background: var(--color-rust); width: 52px; }
 
 /* ─── Back to top ──────────────────────────────────────────────── */
 .back-top {
-  transition: opacity .3s, transform .3s;
+  transition: opacity .3s ease, transform .3s ease;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(16px);
+  pointer-events: none;
 }
-.back-top.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.back-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
-/* ─── Masonry grid ─────────────────────────────────────────────── */
-.masonry {
-  columns: 2;
-  column-gap: 1rem;
-}
-@media (min-width: 768px) { .masonry { columns: 3; column-gap: 1.25rem; } }
-@media (min-width: 1024px) { .masonry { columns: 4; } }
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-/* ─── Outline text ─────────────────────────────────────────────── */
-.text-outline {
-  -webkit-text-stroke: 1px rgba(217,164,65,.6);
-  color: transparent;
-}
-
-/* ─── WhatsApp FAB ─────────────────────────────────────────────── */
+/* ─── WhatsApp FAB pulse ───────────────────────────────────────── */
 @keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,.4); }
-  70%       { box-shadow: 0 0 0 12px rgba(37,211,102,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .35); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
 }
-.whatsapp-fab { animation: pulse-green 2s infinite; }
+.whatsapp-fab { animation: pulse-green 2.2s infinite; }
+
+/* ─── Slow spin (hero stamp) ───────────────────────────────────── */
+@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 16s linear infinite; }
+
+/* ─── Soft float (badges) ──────────────────────────────────────── */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-soft { animation: float-soft 5s ease-in-out infinite; }

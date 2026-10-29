@@ -1,113 +1,64 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [fading, setFading] = useState(false);
-  const calledRef = useRef(false);
 
   useEffect(() => {
-    const duration = 2200;
-    let startTime = null;
-
-    const tick = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(pct);
-
-      if (pct < 100) {
-        requestAnimationFrame(tick);
+    const duration = 1900;
+    const start = performance.now();
+    let raf;
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setProgress(Math.round(eased * 100));
+      if (p < 1) {
+        raf = requestAnimationFrame(tick);
       } else {
-        if (!calledRef.current) {
-          calledRef.current = true;
-          setFading(true);
-          setTimeout(() => {
-            onComplete();
-          }, 600);
-        }
+        setFading(true);
+        setTimeout(onComplete, 550);
       }
     };
-
-    const raf = requestAnimationFrame(tick);
+    raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [onComplete]);
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        background: '#14100C',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '2rem',
-        opacity: fading ? 0 : 1,
-        transition: 'opacity 0.6s ease',
-        pointerEvents: fading ? 'none' : 'auto',
-      }}
+    <motion.div
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-paper"
+      animate={{ opacity: fading ? 0 : 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {/* Spinning Logo */}
-      <div
-        className="preloader-icon"
-        style={{ width: 80, height: 80 }}
+      <motion.img
+        src="/logo-icon.png"
+        alt="Crow Cafe"
+        className="w-20 h-20 md:w-24 md:h-24 object-contain"
+        initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        className="mt-6 text-center"
       >
-        <img
-          src="/logo-icon.png"
-          alt="Crow Cafe"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            filter: 'brightness(1.2) drop-shadow(0 0 12px rgba(217,164,65,0.5))',
-          }}
-        />
-      </div>
-
-      {/* Brand name */}
-      <div style={{ textAlign: 'center' }}>
-        <p style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: '1.4rem',
-          color: '#F5EFE6',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-        }}>
-          Crow Cafe
+        <p className="font-serif text-3xl md:text-4xl font-semibold tracking-wide text-espresso">
+          Crow <em className="italic text-rust">Cafe</em>
         </p>
-      </div>
+        <p className="eyebrow text-cocoa mt-3">Brewing your experience</p>
+      </motion.div>
 
-      {/* Progress bar */}
-      <div style={{
-        width: 200,
-        height: 1,
-        background: 'rgba(245,239,230,0.1)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0, left: 0,
-            height: '100%',
-            width: `${progress}%`,
-            background: 'linear-gradient(to right, #6F4E37, #D9A441)',
-            transition: 'width 0.08s linear',
-          }}
-        />
+      <div className="mt-10 w-52 md:w-64">
+        <div className="h-[2px] w-full bg-sand overflow-hidden rounded-full">
+          <div
+            className="h-full bg-rust rounded-full"
+            style={{ width: `${progress}%`, transition: 'width 0.15s linear' }}
+          />
+        </div>
+        <p className="mt-3 text-center font-serif italic text-sm text-cocoa">{progress}%</p>
       </div>
-
-      {/* Progress counter */}
-      <p style={{
-        fontFamily: "'DM Sans', sans-serif",
-        fontSize: '0.7rem',
-        color: 'rgba(245,239,230,0.4)',
-        letterSpacing: '0.2em',
-      }}>
-        {String(progress).padStart(3, '0')}
-      </p>
-    </div>
+    </motion.div>
   );
 }

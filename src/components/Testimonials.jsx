@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import Container from './Container';
+
+const ease = [0.22, 1, 0.36, 1];
 
 const testimonials = [
   {
@@ -42,131 +44,123 @@ const testimonials = [
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
-  const intervalRef = useRef(null);
+  const timerRef = useRef(null);
 
-  const go = (idx) => {
-    setDirection(idx > current ? 1 : -1);
-    setCurrent(idx);
-  };
+  const go = useCallback((idx) => {
+    setCurrent((prev) => {
+      setDirection(idx > prev || (prev === testimonials.length - 1 && idx === 0) ? 1 : -1);
+      return idx;
+    });
+  }, []);
 
-  const next = () => {
-    const nextIdx = (current + 1) % testimonials.length;
+  const next = useCallback(() => {
     setDirection(1);
-    setCurrent(nextIdx);
-  };
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setDirection(-1);
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
 
   useEffect(() => {
-    intervalRef.current = setInterval(next, 5000);
-    return () => clearInterval(intervalRef.current);
-  }, [current]);
-
-  const variants = {
-    enter: (dir) => ({ opacity: 0, x: dir > 0 ? 60 : -60 }),
-    center: { opacity: 1, x: 0 },
-    exit: (dir) => ({ opacity: 0, x: dir > 0 ? -60 : 60 }),
-  };
+    timerRef.current = setInterval(next, 6000);
+    return () => clearInterval(timerRef.current);
+  }, [next, current]);
 
   const t = testimonials[current];
 
+  const variants = {
+    enter: (dir) => ({ opacity: 0, x: dir > 0 ? 56 : -56 }),
+    center: { opacity: 1, x: 0 },
+    exit: (dir) => ({ opacity: 0, x: dir > 0 ? -56 : 56 }),
+  };
+
   return (
-    <section style={{ background: '#14100C', padding: '6rem 1.5rem' }}>
-      <Container>
+    <section className="bg-paper py-24 md:py-36 relative overflow-hidden">
+      {/* giant decorative quote */}
+      <span
+        aria-hidden
+        className="pointer-events-none select-none absolute top-6 left-1/2 -translate-x-1/2 font-serif leading-none text-sand"
+        style={{ fontSize: '16rem' }}
+      >
+        &ldquo;
+      </span>
+
+      <Container className="relative">
         <SectionHeading
           eyebrow="Voices"
-          title={<>What They <em style={{ color: '#D9A441', fontStyle: 'italic' }}>Say</em></>}
+          title={<>What They <em className="italic text-rust">Say</em></>}
           center
         />
 
-        <div style={{ maxWidth: 800, marginInline: 'auto', position: 'relative' }}>
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={t.id}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                background: 'rgba(30,24,18,0.8)',
-                border: '1px solid rgba(111,78,55,0.25)',
-                padding: 'clamp(2rem, 5vw, 4rem)',
-                textAlign: 'center',
-                position: 'relative',
-              }}
-            >
-              {/* Quote mark */}
-              <div style={{
-                position: 'absolute', top: '1.5rem', left: '2rem',
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '6rem',
-                color: 'rgba(217,164,65,0.12)',
-                lineHeight: 1,
-                userSelect: 'none',
-              }}>
-                "
-              </div>
-
-              {/* Stars */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: '1.5rem' }}>
-                {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} size={16} fill="#D9A441" color="#D9A441" />
-                ))}
-              </div>
-
-              {/* Text */}
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(1rem, 2.5vw, 1.35rem)',
-                fontStyle: 'italic',
-                color: 'rgba(245,239,230,0.85)',
-                lineHeight: 1.8,
-                marginBottom: '2.5rem',
-                position: 'relative', zIndex: 1,
-              }}>
-                "{t.text}"
-              </p>
-
-              {/* Author */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-                <img
-                  src={t.avatar}
-                  alt={t.name}
-                  style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(217,164,65,0.4)' }}
-                />
-                <div style={{ textAlign: 'left' }}>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, color: '#F5EFE6', fontSize: '0.95rem' }}>
-                    {t.name}
-                  </p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.78rem', color: 'rgba(217,164,65,0.7)', letterSpacing: '0.1em' }}>
-                    {t.role}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dots */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '2rem' }}>
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => go(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  padding: 6, display: 'flex', alignItems: 'center',
-                }}
+        <div className="max-w-[860px] mx-auto text-center -mt-2">
+          <div className="min-h-[300px] md:min-h-[280px] flex flex-col justify-start">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.figure
+                key={t.id}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, ease }}
               >
-                <div style={{
-                  height: 8,
-                  width: i === current ? 24 : 8,
-                  borderRadius: i === current ? 4 : '50%',
-                  background: i === current ? '#D9A441' : 'rgba(245,239,230,0.3)',
-                  transition: 'all 0.3s ease',
-                }} />
-              </button>
-            ))}
+                <div className="flex justify-center gap-1 mb-7">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star key={i} size={16} className="fill-rust text-rust" />
+                  ))}
+                </div>
+
+                <blockquote
+                  className="font-serif font-medium text-espresso leading-[1.35]"
+                  style={{ fontSize: 'clamp(1.45rem, 3.4vw, 2.3rem)' }}
+                >
+                  &ldquo;{t.text}&rdquo;
+                </blockquote>
+
+                <figcaption className="mt-9 flex items-center justify-center gap-4">
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    loading="lazy"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-sand"
+                  />
+                  <span className="text-left">
+                    <span className="block font-serif font-semibold text-lg text-espresso leading-tight">{t.name}</span>
+                    <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-cocoa mt-0.5">{t.role}</span>
+                  </span>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
+          </div>
+
+          {/* Controls */}
+          <div className="mt-10 flex items-center justify-center gap-6">
+            <button
+              onClick={prev}
+              aria-label="Previous testimonial"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={17} />
+            </button>
+            <div className="flex items-center gap-2">
+              {testimonials.map((item, i) => (
+                <button
+                  key={item.id}
+                  onClick={() => go(i)}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                  className={`t-line ${i === current ? 'active' : ''}`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={next}
+              aria-label="Next testimonial"
+              className="w-11 h-11 rounded-full border border-espresso/20 flex items-center justify-center text-espresso hover:border-rust hover:text-rust transition-colors cursor-pointer"
+            >
+              <ArrowRight size={17} />
+            </button>
           </div>
         </div>
       </Container>
